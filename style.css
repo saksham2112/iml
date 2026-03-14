@@ -252,3 +252,31 @@ margin-right:20px;
 border-radius:8px;
 
 }
+@media (max-width:900px){
+
+.container{
+grid-template-columns:repeat(3,1fr);
+}
+
+}
+
+/* Mobile */
+
+@media (max-width:600px){
+
+.container{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+/* Very small phones */
+
+@media (max-width:400px){
+
+.container{
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+}
+
+}
