@@ -1,24 +1,80 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Movie Finder</title>
+
+<title>IML Movie Finder</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-<header>🎬 Movie Finder</header>
+<h1>🎬 IML Movie Finder</h1>
 
-<input id="search" placeholder="Search movie...">
-<input id="yearSearch" placeholder="Search by year (e.g. 2023)">
-<div class="container" id="movieList"></div>
-<div id="movieList" class="container"></div>
+<div class="search-bar">
+
+<input id="search" placeholder="🎬 Movie name">
+
+<input id="actorSearch" placeholder="👤 Actor name">
+
+<input id="yearSearch" placeholder="📅 Year">
+
+<select id="countryFilter">
+<option value="">🌍 Country</option>
+<option value="IN">India</option>
+<option value="US">USA</option>
+<option value="GB">UK</option>
+<option value="KR">Korea</option>
+<option value="JP">Japan</option>
+<option value="FR">France</option>
+</select>
+
+<select id="genreFilter">
+<option value="">🎭 Genre</option>
+<option value="28">Action</option>
+<option value="35">Comedy</option>
+<option value="18">Drama</option>
+<option value="27">Horror</option>
+<option value="10749">Romance</option>
+<option value="53">Thriller</option>
+<option value="16">Animation</option>
+<option value="99">Documentary</option>
+</select>
+
+<span id="resultCount"></span>
+
+</div>
+
+<div id="movies" class="container"></div>
 
 <div class="pagination">
+
 <button id="prev">⬅ Previous</button>
-<span id="pageNumber">1</span>
+
+<span class="pageBox">
+Page
+<input id="pageInput" value="1">
+/
+<span id="totalPages">1</span>
+</span>
+
 <button id="next">Next ➡</button>
+
+</div>
+<div id="movieModal" class="modal">
+
+<div class="modal-content">
+
+<span id="closeModal">&times;</span>
+
+<div id="modalBody"></div>
+
+</div>
+
 </div>
 <script src="script.js"></script>
 

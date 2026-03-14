@@ -1,66 +1,98 @@
 const API_KEY = "708b6616d4f93c71106cbd36cd888bb0"
 
-const SEARCH_URL =
-`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}`
-
-const DISCOVER_URL =
-`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_original_language=hi`
-
-const container = document.getElementById("movieList")
-
 let currentPage = 1
-let currentQuery = ""
-let currentYear = ""
+let totalPages = 1
+
+let movieQuery=""
+let actorQuery=""
+let yearQuery=""
+let countryQuery=""
+let genreQuery=""
+
+const container = document.getElementById("movies")
 
 async function fetchMovies(){
 
-let url
+let url=""
 
-if(currentQuery){
+if(actorQuery){
 
-url = `${SEARCH_URL}&query=${currentQuery}&page=${currentPage}`
+const actorRes = await fetch(
+`https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorQuery}`
+)
 
-}else{
+const actorData = await actorRes.json()
 
-url = `${DISCOVER_URL}&page=${currentPage}`
+if(actorData.results.length===0){
+
+container.innerHTML="No actor found"
+return
 
 }
 
-if(currentYear){
+const actorId = actorData.results[0].id
 
-url += `&primary_release_year=${currentYear}`
+url=`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_cast=${actorId}&page=${currentPage}`
 
+}
+else if(movieQuery){
+
+url=`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${movieQuery}&page=${currentPage}`
+
+}
+else{
+
+url=`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&page=${currentPage}`
+
+}
+
+if(yearQuery){
+url += `&primary_release_year=${yearQuery}`
+}
+
+if(countryQuery){
+url += `&with_origin_country=${countryQuery}`
+}
+
+if(genreQuery){
+url += `&with_genres=${genreQuery}`
 }
 
 const res = await fetch(url)
-
 const data = await res.json()
 
-render(data.results)
+renderMovies(data.results)
 
-document.getElementById("pageNumber").innerText = currentPage
+document.getElementById("resultCount").innerText =
+`${data.total_results} movies found`
+
+totalPages = data.total_pages
+
+document.getElementById("totalPages").innerText = totalPages
+
+document.getElementById("pageInput").value = currentPage
 
 }
 
-function render(movies){
+function renderMovies(movies){
 
 container.innerHTML=""
 
 movies.forEach(movie=>{
 
-container.innerHTML+=`
+container.innerHTML += `
 
-<div class="movie">
+<div class="movie" onclick="showMovieDetails(${movie.id})">
 
 <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
 
 <div class="movie-info">
 
-<div class="title">${movie.title}</div>
-
-<div>📅 ${movie.release_date}</div>
+<div>${movie.title}</div>
 
 <div>⭐ ${movie.vote_average}</div>
+
+<div>📅 ${movie.release_date}</div>
 
 </div>
 
@@ -72,32 +104,137 @@ container.innerHTML+=`
 
 }
 
-function searchMovies(){
+/* Movie Details Modal */
 
-currentQuery = document.getElementById("search").value.trim()
-currentYear = document.getElementById("yearSearch").value.trim()
+async function showMovieDetails(movieId){
 
-currentPage = 1
+const res = await fetch(
+`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`
+)
 
-fetchMovies()
+const movie = await res.json()
+
+const modalBody = document.getElementById("modalBody")
+
+modalBody.innerHTML = `
+
+<img src="https://image.tmdb.org/t/p/w500${movie.poster_path}">
+
+<h2>${movie.title}</h2>
+
+<p><b>Release:</b> ${movie.release_date}</p>
+
+<p><b>Rating:</b> ⭐ ${movie.vote_average}</p>
+
+<p>${movie.overview}</p>
+
+`
+
+document.getElementById("movieModal").style.display="flex"
 
 }
 
-document.getElementById("search").addEventListener("input",searchMovies)
-document.getElementById("yearSearch").addEventListener("input",searchMovies)
+/* Close modal */
+
+document.getElementById("closeModal").onclick = function(){
+
+document.getElementById("movieModal").style.display="none"
+
+}
+
+window.onclick = function(event){
+
+const modal = document.getElementById("movieModal")
+
+if(event.target==modal){
+
+modal.style.display="none"
+
+}
+
+}
+
+/* Search Listeners */
+
+document.getElementById("search").addEventListener("input",(e)=>{
+
+movieQuery = e.target.value
+actorQuery=""
+currentPage=1
+fetchMovies()
+
+})
+
+document.getElementById("actorSearch").addEventListener("input",(e)=>{
+
+actorQuery = e.target.value
+movieQuery=""
+currentPage=1
+fetchMovies()
+
+})
+
+document.getElementById("yearSearch").addEventListener("input",(e)=>{
+
+yearQuery = e.target.value
+currentPage=1
+fetchMovies()
+
+})
+
+document.getElementById("countryFilter").addEventListener("change",(e)=>{
+
+countryQuery = e.target.value
+currentPage=1
+fetchMovies()
+
+})
+
+document.getElementById("genreFilter").addEventListener("change",(e)=>{
+
+genreQuery = e.target.value
+currentPage=1
+fetchMovies()
+
+})
+
+/* Pagination */
 
 document.getElementById("next").addEventListener("click",()=>{
 
+if(currentPage < totalPages){
+
 currentPage++
 fetchMovies()
+
+}
 
 })
 
 document.getElementById("prev").addEventListener("click",()=>{
 
-if(currentPage>1){
+if(currentPage > 1){
+
 currentPage--
 fetchMovies()
+
+}
+
+})
+
+document.getElementById("pageInput").addEventListener("change",()=>{
+
+let newPage = parseInt(document.getElementById("pageInput").value)
+
+if(newPage>=1 && newPage<=totalPages){
+
+currentPage=newPage
+fetchMovies()
+
+}else{
+
+document.getElementById("pageInput").value=currentPage
+
 }
 
 })
