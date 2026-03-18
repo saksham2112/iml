@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>IML Movie Finder</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3806391473775229"
+            crossorigin="anonymous"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<h1 id="title">🎬 IML Movie Finder</h1>
+
+<div class="search-bar">
+
+<input id="search" placeholder="🎬 Movie name">
+
+<input id="actorSearch" placeholder="👤 Actor Full name">
+
+<input id="yearSearch" placeholder="📅 Year">
+    <div class="year-range-filter" style="margin-top:10px;">
+        <input type="number" id="yearFrom" placeholder="From Year (e.g., 2010)" min="1900" max="2100">
+        <input type="number" id="yearTo" placeholder="To Year (e.g., 2020)" min="1900" max="2100">
+        <div id="yearRangeError" style="color:red; font-size:14px; margin-top:4px;"></div>
+    </div>
+<select id="countryFilter">
+<option value="">🌍 Country</option>
+<option value="IN">India</option>
+<option value="US">USA</option>
+<option value="GB">UK</option>
+<option value="KR">Korea</option>
+<option value="JP">Japan</option>
+<option value="FR">France</option>
+</select>
+
+<select id="genreFilter">
+<option value="">🎭 Genre</option>
+<option value="28">Action</option>
+<option value="35">Comedy</option>
+<option value="18">Drama</option>
+<option value="27">Horror</option>
+<option value="10749">Romance</option>
+<option value="53">Thriller</option>
+<option value="16">Animation</option>
+<option value="99">Documentary</option>
+</select>
+<select id="languageFilter">
+
+<option value="">🗣 Language</option>
+<option value="hi">Hindi</option>
+<option value="en">English</option>
+<option value="ta">Tamil</option>
+<option value="te">Telugu</option>
+<option value="ko">Korean</option>
+<option value="ja">Japanese</option>
+<option value="fr">French</option>
+
+</select>
+
+    <select id="ottFilter">
+        <option value="">🎥 OTT Platform</option>
+        <option value="8">Netflix</option>
+        <option value="337">Disney+</option>
+        <option value="2">Apple TV+</option>
+    </select>
+
+</div>
+
+<div class="search-actions" style="margin-top:5px;">
+    <button id="resetSearch">Reset Search</button>
+    <button id="resetFilters">Reset Filters</button>
+    <button id="donateBtn" title="Support us">❤️ Support ₹1</button>
+</div>
+
+<div class="view-toggle" style="margin-top:10px;">
+    <button id="gridViewBtn">🔳 Grid View</button>
+    <button id="listViewBtn">📋 List View</button>
+</div>
+
+<div id="resultCount" style="color:limegreen; font-weight:bold; margin-bottom:15px; margin-top:15px;">
+    <!-- Number of movies will appear here -->
+</div>
+<div id="movies" class="grid-view"></div>
+
+<div class="pagination">
+
+<button id="prev">⬅ Previous</button>
+
+<span class="pageBox">
+Page
+<input id="pageInput" value="1">
+/
+<span id="totalPages">1</span>
+</span>
+
+<button id="next">Next ➡</button>
+
+</div>
+<div id="movieModal" class="modal">
+
+<div class="modal-content">
+
+<span id="closeModal">&times;</span>
+
+<div id="modalBody"></div>
+
+</div>
+
+</div>
+<div id="qrModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.8); z-index:9999; justify-content:center; align-items:center;">
+    <div style="width:90%; max-width:300px; background:#fff; padding:20px; border-radius:8px; text-align:center;">
+        <h3>Scan to Support us with ₹1</h3>
+        <img src="support-qr1.jpeg" alt="Support QR" style="width:80%; max-width:250px; margin-top:10px;">
+        <p style="margin-top:10px; font-size:14px;">Scan this QR with your UPI / payment app</p>
+        <button id="closeQrBtn" style="margin-top:15px; padding:8px 12px;">Close</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

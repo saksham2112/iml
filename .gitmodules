@@ -1,0 +1,3 @@
+[submodule "magazine"]
+	path = magazine
+	url = https://github.com/ssspts/magazine.git
