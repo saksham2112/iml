@@ -172,8 +172,8 @@ footer {
 
 /* Main content fixed height */
 main {
-    position: absolute;       /* fixed between header and footer */
-    top: 110px;               /* below fixed header */
+    position: relative;       /* fixed between header and footer */
+    top: 20px;               /* below fixed header */
     bottom: 100px;            /* above fixed footer + pagination */
     left: 0;
     right: 0;
